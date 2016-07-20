@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Admin</title>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.3/foundation.min.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+
+        <div>
+            <form al-submit="submit()">
+                <div class="row">
+                    <!--<div class="columns small-3">
+                        <label>Команд</label>
+                        <input al-value="settings.teamsNum" type="number" required />
+                    </div>-->
+                    <div class="columns small-3">
+                        <label>Игр</label>
+                        <input al-value="settings.gamesNum" type="number" required />
+                    </div>
+                    <div class="columns small-3 end">
+                        <label>Макс. очки</label>
+                        <input al-value="settings.maxScore" type="number" required />
+                    </div>
+                </div>
+                <div class="row" al-show="!settings.teamsNum || !settings.gamesNum">
+                    <div class="column">
+                        <div class="callout">
+                            <p>Пожалуйста, укажите количество команд и игр.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" al-show="settings.teamsNum > 0 && settings.gamesNum > 0">
+                    <div class="column">
+                        <table>
+                            <thead>
+                                <th>Команда</th>
+                                <th al-repeat="j in settings.gamesNum">
+                                    Игра {{j+1}}
+                                </th>
+                                <th class="text-center">
+                                    Сумма
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr al-repeat="i in settings.teamsNum">
+                                    <td>
+                                        <input type="text" al-value="teams[i]" placeholder="Название команды {{i+1}}" required />
+                                    </td>
+                                    <td al-repeat="j in settings.gamesNum">
+                                        <input type="number" al-value="scores[i+'-'+j]" placeholder="Очки" />
+                                    </td>
+                                    <td class="text-center">
+                                        {{sum(i)}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <button type="submit" class="button primary">Применить</button>
+                        <button type="button" class="button hollow" al-click="openScene()">Открыть сцену</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <ul class="pagination">
+                            <li al-repeat="i in scoresHistory"><a href="#" al-click="rollBackScores($index)">{{$index}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.3/foundation.min.js"></script>
+        <script src="main.bundle.js"></script>
+
+    </body>
+</html>
