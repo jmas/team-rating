@@ -57,7 +57,7 @@ export function replace (what, items) {
  * @param index
  */
 export function remove (what, index) {
-    if (! index instanceof Number) {
+    if (! (index instanceof Number)) {
         throw new TypeError('`index` should be an Number.');
     }
     let items = get(what);
