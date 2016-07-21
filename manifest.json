@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+
+  "name": "Team Rating",
+  "description": "Team rating app",
+  "version": "1.0",
+  "icons": { "16": "images/plane.png",
+           "48": "images/plane.png",
+          "128": "images/plane.png" },
+
+  "permissions": ["tabs"],
+
+  "browser_action": {
+    "default_icon": "images/plane.png",
+    "default_title": "Open"
+  },
+
+  "background":{
+    "scripts": ["background.js"]
+  },
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

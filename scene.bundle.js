@@ -50,6 +50,12 @@ var _scene = require('./controllers/scene');
 
 var _scene2 = _interopRequireDefault(_scene);
 
+var _ls = require('./utils/ls');
+
+var store = _interopRequireWildcard(_ls);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // angular light setup
@@ -86,7 +92,14 @@ window.__onData = function (data) {
     });
 };
 
-},{"./controllers/scene":1,"alight":2}],4:[function(require,module,exports){
+// first time
+window.__onData({
+    settings: store.get('settings').shift() || {},
+    teams: store.get('teams').shift() || {},
+    scores: store.get('scores').pop() || {}
+});
+
+},{"./controllers/scene":1,"./utils/ls":5,"alight":2}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -169,6 +182,86 @@ function triggerEvent(name) {
 
 function isInFullScreen() {
     return window.fullScreen || window.innerWidth == screen.width && window.innerHeight == screen.height;
+}
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.makeKey = makeKey;
+exports.get = get;
+exports.add = add;
+exports.replace = replace;
+exports.remove = remove;
+// LocalStorage
+
+var LS_KEY = 'team_rating';
+
+/**
+ * @param what
+ * @returns {string}
+ */
+function makeKey(what) {
+    return LS_KEY + '_' + what;
+}
+
+/**
+ * @param what
+ * @returns {Array}
+ */
+function get(what) {
+    var serializedData = window.localStorage.getItem(makeKey(what));
+    var items = [];
+    if (!serializedData) {
+        return items;
+    }
+    try {
+        items = JSON.parse(serializedData);
+    } catch (e) {
+        console.warn(e);
+    }
+    if (!(items instanceof Array)) {
+        throw new TypeError('Stored data should be an Array.');
+    }
+    return items;
+}
+
+/**
+ * @param what
+ * @param item
+ */
+function add(what, item) {
+    var items = get(what);
+    items.push(item);
+    replace(what, items);
+}
+
+/**
+ * @param what
+ * @param items
+ */
+function replace(what, items) {
+    if (!(items instanceof Array)) {
+        throw new TypeError('`items` should be an Array.');
+    }
+    window.localStorage.setItem(makeKey(what), JSON.stringify(items));
+}
+
+/**
+ * @param what
+ * @param index
+ */
+function remove(what, index) {
+    if (!(index instanceof Number)) {
+        throw new TypeError('`index` should be an Number.');
+    }
+    var items = get(what);
+    if (items[index]) {
+        items.splice(index, 1);
+    }
+    replace(what, items);
 }
 
 },{}]},{},[3]);

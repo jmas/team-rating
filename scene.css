@@ -91,10 +91,8 @@ body:hover .fullscreen {
     content: '';
     display: block;
     position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    left: 50%;
+    margin-left: -35px;
     width: 70px;
     height: 76px;
     background-image: url(images/plane.png);

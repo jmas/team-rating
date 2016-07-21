@@ -27,7 +27,7 @@ function main() {
     var defaultSettings = {
         teamsNum: 9,
         gamesNum: 4,
-        maxScore: 150
+        maxScore: 50
     };
     this.teams = store.get('teams').shift() || {};
     this.scores = store.get('scores').pop() || {};
@@ -65,9 +65,7 @@ main.prototype.openScene = function () {
         this._sceneWin.focus();
         return;
     }
-    this._sceneWin = browser.openWindow(consts.SCENE_URL + '?' + Math.random(), function () {
-        console.warn('Scene is closed.');
-    });
+    this._sceneWin = browser.openWindow(consts.SCENE_URL + '?' + Math.random(), null, 800, 600);
     browser.requestFullScreen(this._sceneWin.document.documentElement);
 };
 
@@ -299,7 +297,7 @@ function replace(what, items) {
  * @param index
  */
 function remove(what, index) {
-    if (!index instanceof Number) {
+    if (!(index instanceof Number)) {
         throw new TypeError('`index` should be an Number.');
     }
     var items = get(what);

@@ -1,5 +1,6 @@
 import alight from 'alight';
 import scene from './controllers/scene';
+import * as store from './utils/ls';
 
 // angular light setup
 alight.ctrl.scene = scene;
@@ -34,3 +35,10 @@ window.__onData = function (data) {
         $('.graph-col').eq(i).height( (score*100/maxScore) + '%' );
     });
 };
+
+// first time
+window.__onData({
+    settings: store.get('settings').shift() || {},
+    teams: store.get('teams').shift() || {},
+    scores: store.get('scores').pop() || {}
+});

@@ -10,7 +10,7 @@ function main() {
     let defaultSettings = {
         teamsNum: 9,
         gamesNum: 4,
-        maxScore: 150
+        maxScore: 50
     };
     this.teams = store.get('teams').shift() || {};
     this.scores = store.get('scores').pop() || {};
@@ -48,9 +48,7 @@ main.prototype.openScene = function () {
         this._sceneWin.focus();
         return;
     }
-    this._sceneWin = browser.openWindow(consts.SCENE_URL + '?'+Math.random(), () => {
-        console.warn('Scene is closed.');
-    });
+    this._sceneWin = browser.openWindow(consts.SCENE_URL + '?'+Math.random(), null, 800, 600);
     browser.requestFullScreen(this._sceneWin.document.documentElement);
 };
 
